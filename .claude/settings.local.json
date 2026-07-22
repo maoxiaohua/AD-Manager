@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(kill 244415 244416)",
+      "Bash(nohup npm run dev -- --host 0.0.0.0)",
+      "Bash(systemctl daemon-reload *)",
+      "Bash(systemctl enable *)",
+      "Bash(curl *)",
+      "Bash(iptables -L INPUT -n --line-numbers)",
+      "Bash(nft list *)",
+      "Bash(ufw status *)",
+      "Bash(ip addr *)",
+      "Bash(env)",
+      "Bash(systemctl list-unit-files *)",
+      "Bash(sqlite3 *)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 *)",
+      "Bash(pkill -f \"node.*vite\")",
+      "Bash(journalctl -u ad-manager-backend --no-pager -n 30)",
+      "Skill(minimal-change)",
+      "Bash(npx tsc *)",
+      "Bash(./venv/bin/python -c \"from app.ldap_client import LDAPClient, LDAPConfig; print\\('ldap_client OK'\\)\")",
+      "Bash(./node_modules/.bin/tsc --noEmit -p tsconfig.app.json)",
+      "Bash(npm ls *)",
+      "Bash(npx -p typescript tsc --noEmit -p /home/windows-hostname/frontend/tsconfig.app.json)",
+      "Bash(netstat -tln)",
+      "Bash(npx vite *)",
+      "Bash(pkill -f \"uvicorn app.main:app\")",
+      "Bash(./venv/bin/python -c \"from app.services.user_service import UserService; print\\('user_service OK'\\)\")"
+    ]
+  }
+}

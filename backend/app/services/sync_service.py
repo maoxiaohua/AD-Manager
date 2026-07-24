@@ -96,6 +96,7 @@ class SyncService:
             log.error_message = str(e)
             log.completed_at = datetime.now(timezone.utc)
 
+        self._cleanup_old_logs()
         self.db.commit()
         self.db.refresh(log)
         return log
@@ -151,6 +152,7 @@ class SyncService:
             log.error_message = str(e)
             log.completed_at = datetime.now(timezone.utc)
 
+        self._cleanup_old_logs()
         self.db.commit()
         self.db.refresh(log)
         return log
@@ -464,3 +466,11 @@ class SyncService:
     def _get_setting(self, key: str) -> str | None:
         s = self.db.query(Setting).filter(Setting.key == key).first()
         return s.value if s else None
+
+    def _cleanup_old_logs(self):
+        """Delete sync logs older than SYNC_LOG_RETENTION_DAYS."""
+        from app.config import settings
+        cutoff = datetime.now(timezone.utc) - timedelta(days=settings.SYNC_LOG_RETENTION_DAYS)
+        deleted = self.db.query(SyncLog).filter(SyncLog.started_at < cutoff).delete()
+        if deleted:
+            logger.info(f"Cleaned up {deleted} old sync logs (older than {cutoff.date()})")

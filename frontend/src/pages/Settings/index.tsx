@@ -10,7 +10,7 @@ import {
 import { getSettings, updateSettings, discoverAD, testLDAPConnection, discoverLocations } from '../../services/settings';
 import type { LocationInfo } from '../../services/settings';
 import { changePassword } from '../../services/auth';
-import { SYNC_SCHEDULE_PRESETS } from '../../utils/constants';
+import { SYNC_SCHEDULE_PRESETS, USER_STATUS_SYNC_SCHEDULE_PRESETS } from '../../utils/constants';
 
 const { Title } = Typography;
 
@@ -45,6 +45,7 @@ export default function SettingsPage() {
       });
       scheduleForm.setFieldsValue({
         sync_schedule: settings.sync_schedule || '0 2 * * *',
+        sync_user_status_schedule: settings.sync_user_status_schedule || '*/5 * * * *',
         scheduler_timezone: settings.scheduler_timezone || 'Asia/Shanghai',
       });
     } catch {
@@ -143,6 +144,7 @@ export default function SettingsPage() {
     try {
       await updateSettings({
         sync_schedule: values.sync_schedule,
+        sync_user_status_schedule: values.sync_user_status_schedule,
         scheduler_timezone: values.scheduler_timezone || 'Asia/Shanghai',
       });
       message.success('Schedule saved — timezone change requires backend restart');
@@ -296,6 +298,31 @@ export default function SettingsPage() {
                   color="blue"
                   style={{ cursor: 'pointer' }}
                   onClick={() => scheduleForm.setFieldValue('sync_schedule', preset.value)}
+                >
+                  {preset.label}
+                </Tag>
+              ))}
+            </Space>
+          </Form.Item>
+          <Divider />
+          <Alert
+            message="User Status Sync"
+            description="Lightweight sync for user account status only (lock/unlock/disable). Runs independently from the full LDAP sync."
+            type="info"
+            showIcon
+            style={{ marginBottom: 24, borderRadius: 8 }}
+          />
+          <Form.Item name="sync_user_status_schedule" label="User Status Schedule (Cron)" rules={[{ required: true }]}>
+            <Input placeholder="*/5 * * * *" />
+          </Form.Item>
+          <Form.Item label="Presets">
+            <Space wrap>
+              {USER_STATUS_SYNC_SCHEDULE_PRESETS.map(preset => (
+                <Tag
+                  key={preset.value}
+                  color="purple"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => scheduleForm.setFieldValue('sync_user_status_schedule', preset.value)}
                 >
                   {preset.label}
                 </Tag>

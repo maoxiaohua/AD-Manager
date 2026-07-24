@@ -1,15 +1,15 @@
 import { useEffect, useState, useCallback } from 'react';
 import {
-  Card, Table, Button, Input, Select, Space, Drawer, Form, Popconfirm,
+  Card, Table, Button, Input, Select, Space, Drawer, Form,
   Tag, message, Upload, Dropdown, Tooltip, Empty, Skeleton, Result,
 } from 'antd';
 import {
-  PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined,
+  PlusOutlined, EditOutlined, SearchOutlined,
   UploadOutlined, DownloadOutlined, ReloadOutlined, ExportOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import {
-  listComputers, createComputer, updateComputer, deleteComputer, getComputerFilterOptions,
+  listComputers, createComputer, updateComputer, getComputerFilterOptions,
 } from '../../services/computers';
 import type { Computer, ComputerFilterOptions } from '../../services/computers';
 import { importFile, exportFile } from '../../services/importExport';
@@ -89,16 +89,6 @@ export default function ComputersPage() {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    try {
-      await deleteComputer(id);
-      message.success('Computer deleted');
-      fetchData();
-    } catch {
-      message.error('Failed to delete');
-    }
-  };
-
   const handleImport = async (file: File) => {
     try {
       await importFile(file, 'computers');
@@ -134,15 +124,13 @@ export default function ComputersPage() {
       render: (v: string | null) => formatRelativeTime(v),
     },
     {
-      title: 'Actions', key: 'actions', width: 140, fixed: 'right' as const,
+      title: 'Actions', key: 'actions', width: 100, fixed: 'right' as const,
       render: (_, record) => (
         <Space>
           <Tooltip title="Edit">
-            <Button size="small" icon={<EditOutlined />} onClick={() => openEditDrawer(record)} />
+            <Button size="small" icon={<EditOutlined />} onClick={() => openEditDrawer(record)}
+              aria-label={`Edit ${record.name}`} />
           </Tooltip>
-          <Popconfirm title="Delete?" onConfirm={() => handleDelete(record.id)}>
-            <Tooltip title="Delete"><Button size="small" danger icon={<DeleteOutlined />} /></Tooltip>
-          </Popconfirm>
         </Space>
       ),
     },

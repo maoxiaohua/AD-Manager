@@ -26,7 +26,10 @@
       "Bash(netstat -tln)",
       "Bash(npx vite *)",
       "Bash(pkill -f \"uvicorn app.main:app\")",
-      "Bash(./venv/bin/python -c \"from app.services.user_service import UserService; print\\('user_service OK'\\)\")"
+      "Bash(./venv/bin/python -c \"from app.services.user_service import UserService; print\\('user_service OK'\\)\")",
+      "Bash(sqlite3 backend/app.db \"SELECT COUNT\\(*\\) FROM sync_logs;\")",
+      "Bash(sqlite3 /home/windows-hostname/backend/app.db \"SELECT COUNT\\(*\\) FROM sync_logs;\")",
+      "Bash(sqlite3 /home/windows-hostname/backend/ad_manager.db \"SELECT COUNT\\(*\\) FROM sync_logs;\")"
     ]
   }
 }

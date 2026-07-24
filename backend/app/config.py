@@ -31,6 +31,7 @@ class Settings(BaseSettings):
     SCHEDULER_TIMEZONE: str = "Asia/Shanghai"
 
     SYNC_SCHEDULE: str = "0 2 * * *"
+    SYNC_LOG_RETENTION_DAYS: int = 30  # Auto-delete sync logs older than this
 
     # Auth
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 480  # 8 hours

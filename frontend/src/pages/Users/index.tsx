@@ -4,12 +4,12 @@ import {
   Tag, message, Tooltip, Dropdown, Empty, Skeleton, Result, Upload,
 } from 'antd';
 import {
-  PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined,
+  PlusOutlined, EditOutlined, SearchOutlined,
   UploadOutlined, DownloadOutlined, ReloadOutlined, ExportOutlined,
   TeamOutlined, UnlockOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import { listUsers, createUser, updateUser, deleteUser, getUserGroups, getUserFilterOptions, unlockUser } from '../../services/users';
+import { listUsers, createUser, updateUser, getUserGroups, getUserFilterOptions, unlockUser } from '../../services/users';
 import type { User, UserGroupInfo, UserFilterOptions } from '../../services/users';
 import { importFile, exportFile } from '../../services/importExport';
 import { formatRelativeTime } from '../../utils/formatters';
@@ -86,16 +86,6 @@ export default function UsersPage() {
       fetchData();
     } catch {
       message.error('Operation failed');
-    }
-  };
-
-  const handleDelete = async (id: number) => {
-    try {
-      await deleteUser(id);
-      message.success('User deleted');
-      fetchData();
-    } catch {
-      message.error('Failed to delete');
     }
   };
 
@@ -193,11 +183,9 @@ export default function UsersPage() {
             </Popconfirm>
           )}
           <Tooltip title="Edit">
-            <Button size="small" icon={<EditOutlined />} onClick={() => openEditDrawer(record)} />
+            <Button size="small" icon={<EditOutlined />} onClick={() => openEditDrawer(record)}
+              aria-label={`Edit ${record.sam_account_name}`} />
           </Tooltip>
-          <Popconfirm title="Delete?" onConfirm={() => handleDelete(record.id)}>
-            <Tooltip title="Delete"><Button size="small" danger icon={<DeleteOutlined />} /></Tooltip>
-          </Popconfirm>
         </Space>
       ),
     },

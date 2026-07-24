@@ -1,16 +1,16 @@
 import { useEffect, useState, useCallback } from 'react';
 import {
-  Card, Table, Button, Input, Space, Drawer, Form, Popconfirm, Switch,
+  Card, Table, Button, Input, Space, Drawer, Form, Switch,
   Tag, message, Tooltip, Dropdown, Empty, Skeleton, Result, Upload,
   Select, Descriptions,
 } from 'antd';
 import {
-  PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined,
+  PlusOutlined, EditOutlined, SearchOutlined,
   UploadOutlined, DownloadOutlined, ReloadOutlined, ExportOutlined,
   TeamOutlined, UserOutlined,
 } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
-import { listGroups, createGroup, updateGroup, deleteGroup, getGroupDetail, getGroupFilterOptions } from '../../services/groups';
+import { listGroups, createGroup, updateGroup, getGroupDetail, getGroupFilterOptions } from '../../services/groups';
 import type { ADGroup, GroupDetail, GroupMember, GroupFilterOptions } from '../../services/groups';
 import { importFile, exportFile } from '../../services/importExport';
 import { formatRelativeTime } from '../../utils/formatters';
@@ -99,16 +99,6 @@ export default function GroupsPage() {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    try {
-      await deleteGroup(id);
-      message.success('Group deleted');
-      fetchData();
-    } catch {
-      message.error('Failed to delete');
-    }
-  };
-
   const handleInlineSave = async (group: ADGroup, field: string, value: string) => {
     try {
       await updateGroup(group.id, { [field]: value || null });
@@ -188,13 +178,11 @@ export default function GroupsPage() {
       render: (v: string) => formatRelativeTime(v),
     },
     {
-      title: 'Actions', key: 'actions', width: 140, fixed: 'right' as const,
+      title: 'Actions', key: 'actions', width: 100, fixed: 'right' as const,
       render: (_, record) => (
         <Space>
-          <Tooltip title="Edit"><Button size="small" icon={<EditOutlined />} onClick={() => openEditDrawer(record)} /></Tooltip>
-          <Popconfirm title="Delete?" onConfirm={() => handleDelete(record.id)}>
-            <Tooltip title="Delete"><Button size="small" danger icon={<DeleteOutlined />} /></Tooltip>
-          </Popconfirm>
+          <Tooltip title="Edit"><Button size="small" icon={<EditOutlined />} onClick={() => openEditDrawer(record)}
+            aria-label={`Edit ${record.name}`} /></Tooltip>
         </Space>
       ),
     },

@@ -27,3 +27,11 @@ export const SYNC_SCHEDULE_PRESETS = [
   { label: 'Weekly (Mon 2 AM)', value: '0 2 * * 1' },
   { label: 'Disabled', value: 'disabled' },
 ];
+
+export const USER_STATUS_SYNC_SCHEDULE_PRESETS = [
+  { label: 'Every 5 min', value: '*/5 * * * *' },
+  { label: 'Every 15 min', value: '*/15 * * * *' },
+  { label: 'Every 30 min', value: '*/30 * * * *' },
+  { label: 'Every hour', value: '0 * * * *' },
+  { label: 'Disabled', value: 'disabled' },
+];
